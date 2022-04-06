@@ -1,0 +1,25 @@
+{
+  "name": "booklistapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nefilem/booklistapi.git"
+  },
+  "author": "Keiron Goodwin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nefilem/booklistapi/issues"
+  },
+  "homepage": "https://github.com/nefilem/booklistapi#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.10",
+    "nodemon": "^2.0.15"
+  }
+}
