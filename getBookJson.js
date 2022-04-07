@@ -39,17 +39,17 @@ exports.populate = async function(req, res) {
                         let bookNameVal = "";
                         let isbn13Val = "";
                         //
-                        bookinfo = undefined;      
-                        if (bookInfo.volumeInfo.imageLinks.thumbnail) {
+                        //bookinfo = undefined;      
+                        if (!(bookInfo.volumeInfo.imageLinks.thumbnail === undefined)) {
                             imageLinkVal = bookInfo.volumeInfo.imageLinks.thumbnail;
                         }                            
-                        if (bookInfo.volumeInfo.authors) {
+                        if (!(bookInfo.volumeInfo.authors === undefined)) {
                             authorsNameVal = bookInfo.volumeInfo.authors.join(", ");
                         }
-                        if (bookInfo.volumeInfo.title) {
+                        if (!(bookInfo.volumeInfo.title === undefined)) {
                             bookNameVal = bookInfo.volumeInfo.title;
                         }
-                        if (idInfo.identifier) {
+                        if (!(idInfo.identifier === undefined)) {
                             isbn13Val = idInfo.identifier;
                         }
                         //                        
@@ -64,7 +64,7 @@ exports.populate = async function(req, res) {
 
                         book.save()
                         .then((response) => {
-                           console.log("created:", book); 
+                           //console.log("created:", book); 
                         })                         
                     }
                 }); 
