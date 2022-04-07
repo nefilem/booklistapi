@@ -53,26 +53,26 @@ class DeleteBook extends Component {
     }
 }
 
-class ReadBook extends Component {
-    ReadUser = event => {
-        event.preventDefault()
+// class ReadBook extends Component {
+//     ReadUser = event => {
+//         event.preventDefault()
 
-        let setreadval = !Boolean(this.props.val);
+//         let setreadval = !Boolean(this.props.val);
 
-        if (
-            window.confirm(
-                `Do you want to set the read status of the book ${this.props.id} to ${setreadval}?`,
-            )
-        ) {
-            api.readBookById(this.props.id, !Boolean(this.props.val));
-            window.location.reload();
-        }
-    }
+//         if (
+//             window.confirm(
+//                 `Do you want to set the read status of the book ${this.props.id} to ${setreadval}?`,
+//             )
+//         ) {
+//             api.readBookById(this.props.id, !Boolean(this.props.val));
+//             window.location.reload();
+//         }
+//     }
 
-    render() {
-        return <ReadBook onClick={this.readUser}>{this.setreadval}</ReadBook>
-    }
-}
+//     render() {
+//         return <ReadBook onClick={this.readUser}>{this.setreadval}</ReadBook>
+//     }
+// }
 
 
 class BooksList extends Component {
