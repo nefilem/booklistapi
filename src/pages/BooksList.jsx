@@ -40,7 +40,7 @@ class DeleteBook extends Component {
 
         if (
             window.confirm(
-                `Do tou want to delete the book ${this.props.id} permanently?`,
+                `Do you want to delete the book ${this.props.id} permanently?`,
             )
         ) {
             api.deleteBookById(this.props.id)
@@ -52,6 +52,28 @@ class DeleteBook extends Component {
         return <Delete onClick={this.deleteUser}>Delete</Delete>
     }
 }
+
+class ReadBook extends Component {
+    ReadUser = event => {
+        event.preventDefault()
+
+        let setreadval = !Boolean(this.props.val);
+
+        if (
+            window.confirm(
+                `Do you want to set the read status of the book ${this.props.id} to ${setreadval}?`,
+            )
+        ) {
+            api.readBookById(this.props.id, !Boolean(this.props.val));
+            window.location.reload();
+        }
+    }
+
+    render() {
+        return <ReadBook onClick={this.readUser}>{this.setreadval}</ReadBook>
+    }
+}
+
 
 class BooksList extends Component {
     constructor(props) {
@@ -67,9 +89,9 @@ class BooksList extends Component {
         this.setState({ isLoading: true })
 
         await api.getAllBooks().then(books => {
-            console.log("Books:",books);
+            console.log("Books:",books);                        
             this.setState({
-                books: books.data.data,
+                books: books.data.map((element) => {return ({id: element._id, isbn13: element.isbn13, bookname: element.bookname, authorsname: element.authorsname, imagelink: element.imagelink, read: element.read, returned: element.returned})}),
                 isLoading: false,
             })
         })
@@ -77,76 +99,91 @@ class BooksList extends Component {
 
     render() {
         const { books, isLoading } = this.state
-        console.log('TCL: BooksList -> render -> books', this.books)
+        console.log('TCL1: BooksList -> render -> books', books)
         
         const columns = [
             {
-                Header: 'ID',
-                accessor: 'isbn13',
-                filterable: true,
+                headerName: 'ISBN No.',
+                field: 'isbn13',
+                width: 150             
             },
             {
-                Header: 'Name',
-                accessor: 'bookname',
-                filterable: true,
+                headerName: 'Book Name',
+                field: 'bookname',
+                width: 300
             },
             {
-                Header: 'Rating',
-                accessor: 'authorsname',               
-                filterable: true,
+                headerName: 'Authors Name(s)',
+                field: 'authorsname',
+                width: 300
             },
             {
-                Header: 'Time',
-                accessor: 'imagelink',
-                Cell: props => <span>{props.value.join(' / ')}</span>,
+                headerName: 'Book Image',
+                field: 'imagelink',
+                width: 150,
+                renderCell: (params) => {
+                    return (
+                      <div>
+                        <img src={params.row.imagelink} alt='' />
+                        {params.row.username}
+                      </div>)
+                }              
             },
             {
-                Header: '',
-                accessor: '',
-                Cell: function(props) {
+                headerName: 'Read',
+                field: 'read',
+                width: 100
+            },
+            {
+                headerName: 'Returned',
+                field: 'returned',
+                width: 100
+            },
+            {
+                Header: 'Delete',
+                field: '',
+                renderCell: (props) => {
                     return (
                         <span>
-                            <DeleteBook id={props.original._id} />
+                            <DeleteBook id={props.row.isbn13} />
                         </span>
                     )
                 },
             },
-            {
-                Header: '',
-                accessor: '',
-                Cell: function(props) {
-                    return (
-                        <span>
-                            <UpdateBook id={props.original._id} />
-                        </span>
-                    )
-                },
-            },
+            // {
+            //     Header: '',
+            //     field: '',
+            //     Cell: function(props) {
+            //         return (
+            //             <span>
+            //                 <UpdateBook id={props.original.isbn13} />
+            //             </span>
+            //         )
+            //     },
+            // },
         ]
 
-        let showTable = true
+        //let showTable = true
         console.log("Books3:",books);
-        if (!books.length) {
-            showTable = false
-         }
-         
+        // if (books === undefined) {
+        //     showTable = false;
+        // } else if (!books.length) {
+        //     showTable = false
+        //  }
+                  
+console.log(columns);
+
         return (
             <Wrapper>
-                <h1>ghgh</h1>
-                <div style={{ height: 300, width: '100%' }}></div>
-             {showTable && (     
-                           
+                <h1>Book List</h1>
+                <div style={{ height: 900, width: '100%' }}>
+             {<DataGrid
+                rows={books}
+                columns={columns} 
+                pageSize={12}
+                rowHeight={300} />}            
                 
-                <DataGrid
-                data={books}
-                columns={columns}
-                loading={isLoading}
-                defaultPageSize={10}
-                showPageSizeOptions={true}
-                minRows={0}
-                 />
-                )}
-
+                </div>
             </Wrapper>
         )
     }

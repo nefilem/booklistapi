@@ -46,73 +46,77 @@ class BooksInsert extends Component {
         }
     }
 
-    handleChangeInputName = async event => {
-        const name = event.target.value
-        this.setState({ name })
+    handleChangeInputISBN13 = async event => {
+        const isbn13 = event.target.value
+        this.setState({ isbn13 })
     }
 
-    handleChangeInputRating = async event => {
-        const rating = event.target.validity.valid
-            ? event.target.value
-            : this.state.rating
-
-        this.setState({ rating })
+    handleChangeInputBookname = async event => {
+        const bookname = event.target.value
+        this.setState({ bookname })
     }
 
-    handleChangeInputTime = async event => {
-        const time = event.target.value
-        this.setState({ time })
+    handleChangeInputAuthorsname = async event => {
+        const authorsname = event.target.value
+        this.setState({ authorsname })
+    }
+
+    handleChangeInputImagelink = async event => {
+        const imagelink = event.target.value
+        this.setState({ imagelink })
     }
 
     handleIncludeBook = async () => {
-        const { name, rating, time } = this.state
-        const arrayTime = time.split('/')
-        const payload = { name, rating, time: arrayTime }
+        const { isbn13, bookname, authorsname, imagelink } = this.state        
+        const payload = { isbn13, bookname, authorsname, imagelink, read:false, returned:false }
 
-        await api.insertMovie(payload).then(res => {
-            window.alert(`Movie inserted successfully`)
+        await api.insertBook(payload).then(res => {
+            window.alert(`Book inserted successfully`)
             this.setState({
-                name: '',
-                rating: '',
-                time: '',
+                isbn13: '',
+                bookname: '',
+                authorsname: '',
+                imagelink: '',
             })
         })
     }
 
     render() {
-        const { name, rating, time } = this.state
+        const { isbn13, bookname, authorsname, imagelink } = this.state
         return (
             <Wrapper>
                 <Title>Create Book</Title>
 
-                <Label>Name: </Label>
+                <Label>ISBN-13 ID: </Label>
                 <InputText
                     type="text"
-                    value={name}
-                    onChange={this.handleChangeInputName}
+                    value={isbn13}
+                    onChange={this.handleChangeInputISBN13}
                 />
 
-                <Label>Rating: </Label>
-                <InputText
-                    type="number"
-                    step="0.1"
-                    lang="en-US"
-                    min="0"
-                    max="10"
-                    pattern="[0-9]+([,\.][0-9]+)?"
-                    value={rating}
-                    onChange={this.handleChangeInputRating}
-                />
-
-                <Label>Time: </Label>
+                <Label>Book Name: </Label>
                 <InputText
                     type="text"
-                    value={time}
-                    onChange={this.handleChangeInputTime}
+                    value={bookname}
+                    onChange={this.handleChangeInputBookname}
                 />
 
-                <Button onClick={this.handleIncludeMovie}>Add Book</Button>
-                <CancelButton href={'/movies/list'}>Cancel</CancelButton>
+                <Label>Authors Name(s): </Label>
+                <InputText
+                    type="text"                    
+                    value={authorsname}
+                    onChange={this.handleChangeInputAuthorsname}
+                />
+
+                <Label>Image Link (URL): </Label>
+                <InputText
+                    type="text"
+                    value={imagelink}
+                    onChange={this.handleChangeInputImagelink}
+                />
+
+                <Button onClick={this.handleIncludeBook}>Add Book</Button>
+                <CancelButton href={'/books/list'}>Cancel</CancelButton>
             </Wrapper>
         )
     }
