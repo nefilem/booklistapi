@@ -29,21 +29,43 @@ exports.populate = async function(req, res) {
               if (idInfo.type === "ISBN_13") {
                 BookList.findOne({isbn13: idInfo.identifier})
                 .then((found) => {
-                    console.log(bookInfo.volumeInfo.imageLinks.thumbnail);               
-                    if (!found) {
+                    //console.log(bookInfo.volumeInfo.imageLinks.thumbnail);               
+                    if (!found) {  
+                        //
+                        let imageLinkVal = "";
+                        let returnedVal = false;
+                        let readVal = false;
+                        let authorsNameVal = "";
+                        let bookNameVal = "";
+                        let isbn13Val = "";
+                        //
+                        bookinfo = undefined;      
+                        if (bookInfo.volumeInfo.imageLinks.thumbnail) {
+                            imageLinkVal = bookInfo.volumeInfo.imageLinks.thumbnail;
+                        }                            
+                        if (bookInfo.volumeInfo.authors) {
+                            authorsNameVal = bookInfo.volumeInfo.authors.join(", ");
+                        }
+                        if (bookInfo.volumeInfo.title) {
+                            bookNameVal = bookInfo.volumeInfo.title;
+                        }
+                        if (idInfo.identifier) {
+                            isbn13Val = idInfo.identifier;
+                        }
+                        //                        
                         const book = new BookList({
-                            isbn13: idInfo.identifier,
-                            bookname: bookInfo.volumeInfo.title,
-                            authorsname: bookInfo.volumeInfo.authors.join(", "),
-                            read: false,
-                            returned: false,
-                            imagelink: bookInfo.volumeInfo.imageLinks.thumbnail
+                            isbn13: isbn13Val,
+                            bookname: bookNameVal,
+                            authorsname: authorsNameVal,
+                            read: readVal,
+                            returned: returnedVal,
+                            imagelink: imageLinkVal
                         });
 
                         book.save()
                         .then((response) => {
-                            
-                        })
+                           console.log("created:", book); 
+                        })                         
                     }
                 }); 
                 
