@@ -117,26 +117,49 @@ exports.create = async function (req,res,next){
 
     let found = false;
 
+/*
+BookList.findOne({isbn13: idInfo.identifier})
+                .then((found) => {
+                    console.log(bookInfo.volumeInfo.imageLinks.thumbnail);               
+                    if (!found) {
+                        const book = new BookList({
+                            isbn13: idInfo.identifier,
+                            bookname: bookInfo.volumeInfo.title,
+                            authorsname: bookInfo.volumeInfo.authors.join(", "),
+                            read: false,
+                            returned: false,
+                            imagelink: bookInfo.volumeInfo.imageLinks.thumbnail
+                        });
+
+                        book.save()
+                        .then((response) => {
+                            
+                        })
+                    }
+                }); 
+*/
+
+
     BookList.findOne({isbn13: req.body.isbn13})
-    .then( found = true );
+    .then( (found) => {
+        if (!found) {
+            const book = new BookList({
+                    isbn13: req.body.isbn13,
+                    bookname: req.body.bookname,
+                    authorsname: req.body.authorsname,
+                    read: req.body.read,
+                    returned: false,
+                    imagelink: req.body.imagelink
+            });
 
-    if (!found) {
-        const book = new BookList({
-                isbn13: req.body.isbn13,
-                bookname: req.body.bookname,
-                authorsname: req.body.authorsname,
-                read: req.body.read,
-                returned: false,
-                imagelink: req.body.imagelink
-        });
-
-        book.save()
-        .then((response) => {
-            res.send({result:true});
-        });
-    } else {
-        res.send(next(createError(400, "Duplicate entry, not added to database")));
-    }
+            book.save()
+            .then((response) => {
+                res.send({result:true});
+            });
+        } else {
+            res.send(next(createError(400, "Duplicate entry, not added to database")));
+        }
+    });
 }
 
 /**
