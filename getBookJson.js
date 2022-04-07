@@ -40,9 +40,11 @@ exports.populate = async function(req, res) {
                         let isbn13Val = "";
                         //
                         //bookinfo = undefined;      
-                        if (!(bookInfo.volumeInfo.imageLinks.thumbnail === undefined)) {
-                            imageLinkVal = bookInfo.volumeInfo.imageLinks.thumbnail;
-                        }                            
+                        if (!(bookinfo.volumeInfo.imageLinks) === undefined) {
+                            if (!(bookInfo.volumeInfo.imageLinks.thumbnail === undefined)) {
+                                imageLinkVal = bookInfo.volumeInfo.imageLinks.thumbnail;
+                            }                            
+                        }
                         if (!(bookInfo.volumeInfo.authors === undefined)) {
                             authorsNameVal = bookInfo.volumeInfo.authors.join(", ");
                         }
