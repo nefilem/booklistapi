@@ -83,42 +83,42 @@ class BooksInsert extends Component {
 
     render() {
         const { isbn13, bookname, authorsname, imagelink } = this.state
-        return (
+        return (            
             <Wrapper>
-            <div style={{ height: 700, width: '85%', margin: '30px auto', background:'white', padding:'30px',borderRadius:'10px' }}>
-                <Title>Create Book</Title>
+                <div style={{ height: 700, width: '85%', margin: '30px auto', background:'white', padding:'30px',borderRadius:'10px' }}>
+                    <Title>Create Book</Title>
 
-                <Label>ISBN-13 ID: </Label>
-                <InputText
-                    type="text"
-                    value={isbn13}
-                    onChange={this.handleChangeInputISBN13}
-                />
+                    <Label>ISBN-13 ID: </Label>
+                    <InputText
+                        type="text"
+                        value={isbn13}
+                        onChange={this.handleChangeInputISBN13}
+                    />
 
-                <Label>Book Name: </Label>
-                <InputText
-                    type="text"
-                    value={bookname}
-                    onChange={this.handleChangeInputBookname}
-                />
+                    <Label>Book Name: </Label>
+                    <InputText
+                        type="text"
+                        value={bookname}
+                        onChange={this.handleChangeInputBookname}
+                    />
 
-                <Label>Authors Name(s): </Label>
-                <InputText
-                    type="text"                    
-                    value={authorsname}
-                    onChange={this.handleChangeInputAuthorsname}
-                />
+                    <Label>Authors Name(s): </Label>
+                    <InputText
+                        type="text"                    
+                        value={authorsname}
+                        onChange={this.handleChangeInputAuthorsname}
+                    />
 
-                <Label>Image Link (URL): </Label>
-                <InputText
-                    type="text"
-                    value={imagelink}
-                    onChange={this.handleChangeInputImagelink}
-                />
+                    <Label>Image Link (URL): </Label>
+                    <InputText
+                        type="text"
+                        value={imagelink}
+                        onChange={this.handleChangeInputImagelink}
+                    />
 
-                <Button onClick={this.handleIncludeBook}>Add Book</Button>
-                <CancelButton href={'/books/list'}>Cancel</CancelButton>
-        </div>
+                    <Button onClick={this.handleIncludeBook}>Add Book</Button>
+                    <CancelButton href={'/books/list'}>Cancel</CancelButton>
+                </div>
             </Wrapper>
         )
     }
