@@ -1,0 +1,32 @@
+$myColor: chocolate;
+$myColor1:chocolate;
+$backgroundColor: rgb(223, 214, 206);
+$secondaryColor: #000;
+
+h1,h2 {
+  color: $myColor;
+}
+
+body {
+    background-color: $backgroundColor;
+    font-size: 20px;
+    
+  }
+  .col{
+    background-color: $backgroundColor;
+    margin-left: 20px;
+  }
+  .bg-dark{
+    background-color:rgb(70, 41, 21)!important;
+  }
+  .welcome{
+    width: 600px;
+    padding: 30px;
+    margin: 30px auto;
+    text-align: center;    
+    background-color: $backgroundColor;
+    border-color: chocolate;
+    border-radius: 10px;
+    border-style: solid;
+  border-width: thin;
+  }
