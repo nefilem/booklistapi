@@ -175,8 +175,10 @@ console.log(columns);
 
         return (
             <Wrapper>
+            <div className="welcome">
                 <h1>Book List</h1>
-                <div style={{ height: 900, width: '100%' }}>
+            </div>
+                <div style={{ height: 700, width: '85%', margin: '30px auto', background:'white' }}>
              {<DataGrid
                 rows={books}
                 columns={columns} 
