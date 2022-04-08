@@ -85,6 +85,7 @@ class BooksInsert extends Component {
         const { isbn13, bookname, authorsname, imagelink } = this.state
         return (
             <Wrapper>
+            <div style={{ height: 700, width: '85%', margin: '30px auto', background:'white', padding:'30px',borderRadius:'10px' }}>
                 <Title>Create Book</Title>
 
                 <Label>ISBN-13 ID: </Label>
@@ -117,6 +118,7 @@ class BooksInsert extends Component {
 
                 <Button onClick={this.handleIncludeBook}>Add Book</Button>
                 <CancelButton href={'/books/list'}>Cancel</CancelButton>
+        </div>
             </Wrapper>
         )
     }
