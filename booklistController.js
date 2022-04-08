@@ -1,14 +1,16 @@
 const { ObjectId } = require('mongodb');
-//const uri = "mongodb+srv://dbMongo:pa55word@cluster0.trvjy.mongodb.net/booklist?retryWrites=true&w=majority";
-//const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 const { BookList }  = require('./models/booklist');
-
 const createError = require('http-errors');
 
-// exports.showReturned = function(req, res, next){
-//     //res.send(booklist.filter((element) => { return element.returned = true))
-// }
-
+/* 
+    data structure
+    isbn13 (key, enforced as unique through code)
+    bookname
+    authorsname
+    imagelink
+    read
+    returned
+*/
 /**
  * Returns a list of all books from the database
  * @param  {} req
@@ -82,6 +84,7 @@ exports.delete = function(req,res,next){
         }
         book.bookname = req.body.bookname;
         book.authorsname = req.body.authorsname;
+        book.imagelink = req.body.imagelink;
         book.read = req.body.read;
         book.returned = req.body.returned;
 
@@ -247,10 +250,10 @@ exports.search = async function (req,res) {
             filter = {authorsname: { "$regex": String(req.params.value), "$options": "i" } };
             break;
         case "read":
-            filter = {read: Boolean(req.params.value)};
+            filter = {read: (req.params.value)};
             break;
         case "returned":
-            filter = {returned: Boolean(req.params.value)};
+            filter = {returned: (req.params.value)};
             break;
         case "isbn13":
             filter = {isbn13: { "$regex": String(req.params.value), "$options": "i" } };
@@ -265,4 +268,28 @@ exports.search = async function (req,res) {
     
     BookList.find(filter)
     .then((booklistitem) => { console.log(booklistitem); res.send(booklistitem); });
+}
+
+exports.deleteAll = function(req,res,next){
+    console.log("uhoh delete all");
+    BookList.deleteMany({ isbn13: { $ne: "" }})
+      .then( (result) => {
+          console.log(result);
+          if(result.deletedCount){
+              res.send({result:true});
+          }
+          else {
+              return(next(createError(404,"Error occured deleting collection.")))
+          }
+          
+      })	
+}
+
+
+exports.getRandomBooks = async function(req, res) {    
+        BookList.find({imagelink: { $ne : "" }})
+         .then( (booklistitem) => {
+             const shuffledArray = booklistitem.sort(() => 0.5 - Math.random());
+             res.send(shuffledArray.slice(0,3));
+        });
 }
